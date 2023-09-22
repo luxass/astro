@@ -72,7 +72,7 @@ jobs:
         id: changesets
         run: |
           pnpm exec changeset version --snapshot ${{ steps.getSnapshotName.outputs.result }} > changesets.output.txt 2>&1
-          echo ::set-output name=result::`cat changesets.output.txt`
+          echo "result=`cat changesets.output.txt`" >> $GITHUB_OUTPUT
         env:
           # Needs access to run the script
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -81,7 +81,7 @@ jobs:
         id: publish
         run: |
           pnpm run release --tag next--${{ steps.getSnapshotName.outputs.result }} > publish.output.txt 2>&1
-          echo ::set-output name=result::`cat publish.output.txt`
+          echo "result=`cat publish.output.txt`" >> $GITHUB_OUTPUT
         env:
           # Needs access to publish to npm
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
